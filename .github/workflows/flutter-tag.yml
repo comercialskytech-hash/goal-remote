@@ -9,6 +9,9 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+-[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+-[0-9]+'
 
+# Goal Remote: concede escrita para as sub-receitas publicarem o release
+permissions: write-all
+
 jobs:
   run-flutter-tag-build:
     uses: ./.github/workflows/flutter-build.yml
