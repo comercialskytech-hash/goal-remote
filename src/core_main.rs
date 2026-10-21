@@ -44,7 +44,7 @@ fn finish_macos_update(result: hbb_common::ResultType<()>) -> Option<CoreMainAct
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
 pub fn core_main() -> Option<CoreMainAction> {
     // Goal Remote: nome do app (rebrand para uso interno próprio)
-    *config::APP_NAME.write().unwrap() = "GoalRemote".to_owned();
+    *config::APP_NAME.write().unwrap() = "Goal-Remote".to_owned();
     if !crate::common::global_init() {
         return None;
     }
