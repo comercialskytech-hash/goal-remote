@@ -457,7 +457,7 @@ jobs:
           Copy-Item -Recurse ./rustdesk ./goal-msi
           Rename-Item ./goal-msi/rustdesk.exe Goal-Remote.exe
           pushd ./res/msi
-          python preprocess.py --arp -d ../../goal-msi --app-name Goal-Remote
+          python preprocess.py --arp -d ../../goal-msi --app-name Goal-Remote --manufacturer Goal
           nuget restore msi.sln
           $msiPlatform = if ('${{ matrix.job.arch }}' -eq 'aarch64') { 'ARM64' } else { 'x64' }
           msbuild msi.sln -p:Configuration=Release -p:Platform=$msiPlatform /p:TargetVersion=Windows10
