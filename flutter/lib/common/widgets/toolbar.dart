@@ -1152,7 +1152,7 @@ Future<List<TToggleMenu>> toolbarDisplayToggle(
       (privacyModeState.isEmpty ||
           allowDisplaySwitchInPrivacyMode(pi, privacyModeState.value)) &&
       pi.displaysCount.value > 1 &&
-      bind.mainGetUserDefaultOption(key: kKeyShowMonitorsToolbar) == 'Y') {
+      bind.mainGetUserDefaultOption(key: kKeyShowMonitorsToolbar) != 'N' /* Goal: botões das telas ligados por padrão */) {
     final value =
         bind.sessionGetDisplaysAsIndividualWindows(sessionId: ffi.sessionId) ==
             'Y';

@@ -2218,12 +2218,15 @@ class _DisplayState extends State<_Display> {
   }
 
   Widget otherRow(String label, String key) {
-    final value = getOtherDefaultSettingOption(key) == 'Y';
+    // Goal: botões das telas na barra começam ligados (só desliga com 'N').
+    final value = key == kKeyShowMonitorsToolbar
+        ? getOtherDefaultSettingOption(key) != 'N'
+        : getOtherDefaultSettingOption(key) == 'Y';
     final isOptFixed = isOtherDefaultSettingReadOnly(key);
     onChanged(bool b) async {
       await setOtherDefaultSettingOption(
         key,
-        b ? 'Y' : (key == kOptionEnableFileCopyPaste ? 'N' : defaultOptionNo),
+        b ? 'Y' : ((key == kOptionEnableFileCopyPaste || key == kKeyShowMonitorsToolbar) ? 'N' : defaultOptionNo),
       );
       setState(() {});
     }

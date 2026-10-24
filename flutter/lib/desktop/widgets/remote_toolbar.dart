@@ -1071,7 +1071,7 @@ class _MonitorMenu extends StatelessWidget {
   }) : super(key: key);
 
   bool get showMonitorsToolbar =>
-      bind.mainGetUserDefaultOption(key: kKeyShowMonitorsToolbar) == 'Y';
+      bind.mainGetUserDefaultOption(key: kKeyShowMonitorsToolbar) != 'N' /* Goal: botões das telas ligados por padrão */;
 
   bool get supportIndividualWindows =>
       !isWeb && ffi.ffiModel.pi.isSupportMultiDisplay;
