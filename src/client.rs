@@ -2952,7 +2952,15 @@ impl LoginConfigHandler {
 
         self.id = id;
         self.conn_type = conn_type;
-        let config = self.load_config();
+        let mut config = self.load_config();
+        // Goal: o link do CRM com "?view_only=1" marca esta opção antes de conectar;
+        // a sessão começa em "Modo de visualização" (o aviso de conexão continua
+        // aparecendo para o cliente). Vale só uma vez.
+        if config.options.get("goal-view-only-once").map(|v| v == "Y").unwrap_or(false) {
+            config.options.remove("goal-view-only-once");
+            config.view_only.v = true;
+            config.store(&self.id);
+        }
         self.remember = !config.password.is_empty();
         self.config = config;
 

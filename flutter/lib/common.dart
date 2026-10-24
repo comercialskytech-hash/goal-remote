@@ -2286,8 +2286,13 @@ bool handleUriLink({List<String>? cmdArgs, Uri? uri, String? uriString}) {
   String? password;
   String? switchUuid;
   bool? forceRelay;
+  bool viewOnly = false;
   for (int i = 0; i < args.length; i++) {
     switch (args[i]) {
+      // Goal: link do CRM "?view_only=1" abre a tela só para ver.
+      case '--view-only':
+        viewOnly = true;
+        break;
       case '--connect':
       case '--play':
         type = UriLinkType.remoteDesktop;
@@ -2343,7 +2348,12 @@ bool handleUriLink({List<String>? cmdArgs, Uri? uri, String? uriString}) {
   if (type != null && id != null) {
     switch (type) {
       case UriLinkType.remoteDesktop:
-        Future.delayed(Duration.zero, () {
+        Future.delayed(Duration.zero, () async {
+          if (viewOnly) {
+            // Marca para a próxima sessão deste ID começar em "Modo de visualização".
+            await bind.mainSetPeerOption(
+                id: id!, key: 'goal-view-only-once', value: 'Y');
+          }
           rustDeskWinManager.newRemoteDesktop(id!,
               password: password,
               switchUuid: switchUuid,
@@ -2516,6 +2526,7 @@ List<String>? urlLinkToCmdArgs(Uri uri) {
     String? switch_uuid = param["switch_uuid"];
     if (switch_uuid != null) args.addAll(['--switch_uuid', switch_uuid]);
     if (param["relay"] != null) args.add("--relay");
+    if (param["view_only"] == "1") args.add("--view-only");
     return args;
   }
 
